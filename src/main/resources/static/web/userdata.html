@@ -147,7 +147,7 @@
 							<div class="form-group">
 								<label class="col-md-2 control-label">电话号码：</label>
 								<div class="col-md-8">
-									<input `id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" value="13311311313">
+									<input id="phone" name="phone" type="text" class="form-control" placeholder="请输入电话号码" value="13311311313">
 								</div>
 							</div>
 							<div class="form-group">
@@ -262,6 +262,68 @@
 			</div>
 		</footer>
 		<!--页脚结束-->
+		<!--一旦检测到当前页面被夹在就会触发ready方法
+			$(document).ready(function(){
+				//编写业务代码
+			})
+			-->
+		<script type="text/javascript">
+			// $("#btn-change-info").click(function () {
+			//
+			// });
+			$(document).ready(function () {
+				$.ajax({
+					url: "/users/get_by_uid",
+					type:"GET",
+					data: "",
+					dataType:"JSON",
+					success:function (json){
+						if(json.state == 200){
+							//将查询到数据重新设置到控件中
+							//val表示将值设置到控件的对应属性中
+							$("#username").val(json.data.username);
+							$("#phone").val(json.data.phone);
+							$("#email").val(json.data.email);
+							//由于表单中的性别选项为单选框，故不能直接使用val进行注入
+							let radio = json.data.gender == 0 ? $("#gender-female") : $("#gender-male");
+							//prop()表示给某个标签添加上属性以及属性的值
+							radio.prop("checked","checked");
+						}else{
+							alert("用户数据不存在");
+						}
+					},
+					error:function (xhr){
+						alert("查询用户数据时产生未知错误！" + xhr.message);
+					}
+				});
+			})
+		</script>
+		<script type="text/javascript">
+			$("#btn-change-info").click(function () {
+				$.ajax({
+					url: "/users/change_info",
+					type:"POST",
+					data: $("#form-change-info").serialize(),
+					dataType:"JSON",
+					//当服务器正常响应时，会进行密码的修改
+					//若修改成功此时返回的对象为
+					//state:200
+					//data:Void
+					success:function (json){
+						if(json.state == 200){
+							alert("数据修改成功");
+							//修改成功后重新加载当前页面
+							location.href="userdata.html"
+						}else{
+							alert("数据修改失败");
+						}
+					},
+					error:function (xhr){
+						alert("修改时产生未知错误！" + xhr.message);
+					}
+				});
+			});
+		</script>
 	</body>
 
 </html>

@@ -2,11 +2,14 @@ package com.cy.store.mapper;
 
 
 import com.cy.store.entity.User;
+import lombok.Data;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.Date;
 
 //单元测试必须添加下列的两个注解
 //@SpringBootTest:表示标注当前的类是一个测试类，不会随同项目一块打包
@@ -37,5 +40,24 @@ public class UserMapperTests {
         String username = "tim";
         User usr = userMapper.findByUsername(username);
         System.out.println(usr);
+    }
+    @Test
+    public void updatePasswordByUid(){
+        Integer uid = 11;
+        String password = "123123";
+        String modifiedUsername = "chen06";
+        Date modifiedTime = new Date();
+        userMapper.updatePasswordByUid(uid,password,modifiedUsername,modifiedTime);
+    }
+    @Test
+    public void findByUid(){
+        Integer uid = 11;
+        userMapper.findByUid(uid);
+    }
+    @Test
+    public void updateInfoByUid(){
+        User user = new User();
+
+        userMapper.updateInfoByUid(user);
     }
 }

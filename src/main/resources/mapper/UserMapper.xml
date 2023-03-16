@@ -21,7 +21,7 @@
         -->
         <!--在定义映射规则时，主键不可以省略-->
         <id column="uid" property="uid"></id>
-        <result column="is_delete" property="idDelete"></result>
+        <result column="is_delete" property="isDelete"></result>
         <result column="created_user" property="createdUser"></result>
         <result column="created_time" property="createdTime"></result>
         <result column="modified_user" property="modifiedUser"></result>
@@ -56,4 +56,39 @@
     <select id="findByUsername" resultMap="UserEntityMap">
         SELECT * FROM t_user WHERE username = #{username}
     </select>
+    <!--更新密码-->
+    <update id="updatePasswordByUid" >
+        UPDATE
+        t_user
+        SET
+            password = #{password},
+            modified_user = #{modifiedUser},
+            modified_time = #{modifiedTime}
+        WHERE
+            uid = #{uid}
+    </update>
+    <!--根据uid查找用户数据-->
+    <select id="findByUid" resultMap="UserEntityMap">
+        SELECT * FROM t_user WHERE uid = #{uid}
+    </select>
+    <!--更新用户信息-->
+    <update id="updateInfoByUid">
+        UPDATE t_user SET
+        <!--<if test="">表示条件判断，test接受的是一个返回值为boolean类型的条件
+        如果true，执行-->
+        <if test="phone!=null">phone = #{phone},</if>
+        <if test="email!=null">email = #{email},</if>
+        <if test="gender!=null">gender = #{gender},</if>
+        modified_user = #{modifiedUser},
+        modified_time = #{modifiedTime}
+        where uid = #{uid}
+    </update>
+    <!--根据用户id修改用户头像-->
+    <update id="updateAvatarByUid">
+        UPDATE t_user SET
+        <if test="phone!=null">avatar = #{avatar},</if>
+        modified_user = #{modifiedUser},
+        modified_time = #{modifiedTime}
+        where uid = #{uid}
+    </update>
 </mapper>
