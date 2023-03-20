@@ -80,4 +80,11 @@ public class UserServiceTests {
         user.setEmail("347613304@qq.com");
         userService.changeInfo(15,"chen09",user);
     }
+    @Test
+    public void changeAvatar(){
+        User user = new User();
+        user.setAvatar("C:/chen/image/photo.png");
+        Integer uid = 16;
+        userService.changeAvatar(uid,user);
+    }
 }

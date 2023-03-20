@@ -86,7 +86,7 @@
     <!--根据用户id修改用户头像-->
     <update id="updateAvatarByUid">
         UPDATE t_user SET
-        <if test="phone!=null">avatar = #{avatar},</if>
+        <if test="avatar!=null">avatar = #{avatar},</if>
         modified_user = #{modifiedUser},
         modified_time = #{modifiedTime}
         where uid = #{uid}

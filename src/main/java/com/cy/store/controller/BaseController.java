@@ -1,6 +1,7 @@
 package com.cy.store.controller;
 
 
+import com.cy.store.controller.ex.*;
 import com.cy.store.service.ex.*;
 import com.cy.store.util.JsonResult;
 import jakarta.servlet.http.HttpSession;
@@ -19,7 +20,7 @@ public class BaseController {
     //表示当出现这个异常时都会統一被拦截到这个方法当中
     //还会自动将异常对象传递到此方法的参数列表上
     //当项目中产生异常，被统一拦截到此方法中，这个方法此时就充当的是请求处理方法，方法的返回值直接给到前端
-    @ExceptionHandler(ServiceException.class)
+    @ExceptionHandler({ServiceException.class,FileUploadException.class})
     /*Throwable是Exception的父类，Throwable中包含Exception和ERROR*/
     public JsonResult<Void> handleException(Throwable e) {
         //调用JsonResult中的异常构造器，将异常信息传给message
@@ -39,6 +40,16 @@ public class BaseController {
         }else if(e instanceof UpdateException){
             result.setState(5003);
             result.setMessage("更新数据时产生未知的异常");
+        }else if(e instanceof FileEmptyException){
+            result.setState(6000);
+        }else if(e instanceof FileSizeException){
+            result.setState(6001);
+        }else if(e instanceof FileTypeException){
+            result.setState(6002);
+        }else if(e instanceof FileStateException){
+            result.setState(6003);
+        }else if(e instanceof FileUploadIOException){
+            result.setState(6004);
         }
         return result;
     }

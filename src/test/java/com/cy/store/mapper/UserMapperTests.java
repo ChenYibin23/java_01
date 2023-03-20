@@ -60,4 +60,13 @@ public class UserMapperTests {
 
         userMapper.updateInfoByUid(user);
     }
+    @Test
+    public void updateAvatarByUid(){
+        User user = new User();
+        user.setUid(15);
+        user.setAvatar("D:/image/xxx.png");
+        user.setModifiedUser("chen09");
+        user.setModifiedTime(new Date());
+        userMapper.updateAvatarByUid(user);
+    }
 }

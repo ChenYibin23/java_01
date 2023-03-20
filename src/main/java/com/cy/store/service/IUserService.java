@@ -40,4 +40,11 @@ public interface IUserService {
      * @param user 用户
      */
     void changeInfo(Integer uid,String username,User user);
+
+    /**
+     * uid从session中获取
+     * @param uid
+     * @param user
+     */
+    void changeAvatar(Integer uid,User user);
 }

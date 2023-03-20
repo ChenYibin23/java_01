@@ -184,6 +184,28 @@ public class UserServiceImpl implements IUserService {
             System.out.println("用户信息修改失败！");
             throw new UpdateException("更新数据时产生未知异常！");
         }
+    }
+    @Override
+    public void changeAvatar(Integer uid,User user){
+        //控制层传入的User对象中仅包含头像三个字段的值
+        User result = userMapper.findByUid(uid);
+        if(result == null){
+            System.out.println("用户不存在！");
+            throw new UserNotfoundException("用户信息不存在");
+        } else if (result.getIsDelete() == 1) {
+            System.out.println("用户已注销");
+            throw new UserNotfoundException();
+        }
+        user.setUid(uid);
+        Date modifiedTime = new Date();
+        String modifiedUser = result.getUsername();
+        user.setModifiedUser(modifiedUser);
+        user.setModifiedTime(modifiedTime);
+        Integer integer = userMapper.updateAvatarByUid(user);
+        if(integer != 1){
+            System.out.println("头像信息修改失败！");
+            throw new UpdateException("更新数据时产生未知异常！");
+        }
 
     }
 
